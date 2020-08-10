@@ -1,0 +1,210 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@charset "utf-8";
+@css-prefix: blog-;
+@import "./colors.less";
+/* CSS Document */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers https://yijile.com/log/203.html */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* common class https://yijile.com/log/203.html */
+.clear {
+  clear: both;
+}
+#__nuxt,
+#__layout {
+  height: 100vh !important;
+}
+.@{css-prefix}container {
+  width: 1270px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+.el-container {
+  .el-aside {
+    width: 200px !important;
+  }
+  .el-menu {
+    height: 100%;
+  }
+}
+
+.blog-container {
+  width: 80%;
+  margin: 0 auto;
+  height: 100%;
+}
+@media screen and (max-width: 1200px) {
+  .blog-container {
+    width: 100%;
+    padding: 0 12px;
+  }
+}
+.el-header {
+  background: inherit;
+  padding: 0;
+  height: inherit;
+  line-height: inherit;
+}
+.el-aside {
+  width: 234px !important;
+  min-width: 234px !important;
+  max-width: 234px !important;
+  flex: 0 0 234px !important;
+  background: inherit;
+}
+.el-main {
+  width: calc(100% -234px) !important;
+  max-width: calc(100% -234px) !important;
+}
+.el-footer {
+  font-size: 12px;
+  color: @gray-color;
+  text-align: center;
+}
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s;
+}
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+}
