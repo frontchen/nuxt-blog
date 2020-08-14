@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "dev": "NODE_ENV=development DEBUG=blogServices nodemon ./bin/www --exec babel-node --name 'blogServices'",
+    "start": "NODE_ENV=production nodemon ./bin/www --exec babel-node ",
+    "uat": "NODE_ENV=uat pm2 start config.js --env uat"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -11,6 +13,12 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "mongoose": "^5.9.29",
     "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "nodemon": "^2.0.4"
   }
 }
