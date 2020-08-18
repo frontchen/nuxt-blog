@@ -4,14 +4,13 @@
  * Module dependencies.
  */
 import app from "../app";
-
-var debug = require("debug")("service:server");
+import debug from "debug";
+const blogDebug = debug("service:server");
 import http from "http";
 import { config } from "../config";
 /**
  * Get port from environment and store in Express.
  */
-console.log(["config", config]);
 const port = config.port;
 
 app.set("port", port);
@@ -62,5 +61,5 @@ function onError(error) {
 function onListening() {
   let addr = server.address();
   let bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  debug("Listening on " + bind);
+  blogDebug("Listening on " + bind);
 }

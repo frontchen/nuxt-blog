@@ -5,19 +5,46 @@ let dbconfig = {
     host: "localhost",
     dbPort: 27017,
     user: "root",
-    password: "123456"
+    password: "123456",
+    session: {
+      name: "BLOG",
+      secret: "BLOG",
+      cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 365 * 24 * 60 * 60 * 1000
+      }
+    }
   },
   production: {
     host: "http://api.blog.chenzhen.work",
     dbPort: 27017,
     user: "root",
-    password: "123456"
+    password: "123456",
+    session: {
+      name: "BLOG",
+      secret: "BLOG",
+      cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 365 * 24 * 60 * 60 * 1000
+      }
+    }
   },
   uat: {
     host: "http://api.blog.chenzhen.work",
     dbPort: 27017,
     user: "root",
-    password: "123456"
+    password: "123456",
+    session: {
+      name: "BLOG",
+      secret: "BLOG",
+      cookie: {
+        httpOnly: true,
+        secure: false,
+        maxAge: 365 * 24 * 60 * 60 * 1000
+      }
+    }
   }
 };
 let config = {
