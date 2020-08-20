@@ -1,13 +1,14 @@
-import express from "express";
 import users from "./users";
-const router = express.Router();
-
+import film from "./film";
+import music from "./music";
 /* GET home page. */
 
 const index = (req, res, next) => {
   res.render("index", { title: "Express" });
 };
-export default app => {
+export default (app) => {
   app.use("/", index);
   app.use("/user", users);
+  app.use("/film", film);
+  app.use("/music", music);
 };
