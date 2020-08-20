@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development  nodemon ./bin/www --exec babel-node --presets es2015,stage-2 --name 'blogServices'",
+    "dev": "cross-env NODE_ENV=development  nodemon ./bin/www --exec babel-node --presets es2015,stage-2",
     "start": "cross-env NODE_ENV=production nodemon ./bin/www --exec babel-node --presets es2015,stage-2",
-    "uat": "NODE_ENV=uat pm2 start config.js --env uat"
+    "uat": "cross-env NODE_ENV=uat  nodemon ./bin/www  --exec babel-node --presets es2015,stage-2"
   },
   "dependencies": {
+    "chalk": "^4.1.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
@@ -20,6 +21,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "cross-env": "^7.0.2",
     "nodemon": "^2.0.4"
   }
 }
