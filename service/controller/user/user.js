@@ -1,4 +1,4 @@
-import UserModal from "../model/user";
+import UserModal from "../../model/user/user";
 class User {
   register = (err, req, res, next) => {
     if (err) {

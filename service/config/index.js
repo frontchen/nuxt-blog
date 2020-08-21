@@ -51,7 +51,7 @@ let config = {
   //服务器配置
   development: {
     host: "localhost",
-    port: 5000
+    port: 5005
   },
   production: {
     host: "http://blog.chenzhen.work",

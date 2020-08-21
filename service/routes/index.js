@@ -4,9 +4,10 @@ import music from "./music";
 /* GET home page. */
 
 const index = (req, res, next) => {
+  res.type("html");
   res.render("index", { title: "Express" });
 };
-export default (app) => {
+export default app => {
   app.use("/", index);
   app.use("/user", users);
   app.use("/film", film);
