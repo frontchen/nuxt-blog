@@ -8,15 +8,14 @@ class Film {
     res.json(data);
   };
   getList = async (req, res) => {
-    console.log(["req", req]);
-    let path = req.query.path;
+    let path = req.query.path.replace(/[\\']/g, "");
     let data = await api.get245BtTabData(path).catch(err => {
       res.json(err);
     });
     res.json(data);
   };
   getListItem = async (req, res) => {
-    let path = req.query.path;
+    let path = req.query.path.replace(/[\\']/g, "");
     let data = await api.get245BtListItem(path).catch(err => {
       res.json(err);
     });
@@ -30,16 +29,15 @@ class Film {
     res.json(data);
   };
   searchListBywords = async (req, res) => {
-    let keyWords = req.query.keyWords;
-    let pageIndex = req.query.pageIndex;
+    let searchword = req.query.searchword;
     let data = await api
-      .search245BtBykeywords("/search.php", {
-        searchword: keyWords,
-        page: pageIndex
+      .search245BtBykeywords({
+        searchword: searchword
       })
       .catch(err => {
         res.json(err);
       });
+    // console.log("searchListBywords", data);
     res.json(data);
   };
 }

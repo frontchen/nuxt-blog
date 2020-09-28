@@ -62,7 +62,19 @@ export default {
 		},
 		handleSelect({ item }) {
 			console.log(['aside', item])
-			if (item && item.router) this.$router.push(item.router)
+			if (item && item.router) {
+				let params = {}
+				if (item.name && item.parent) {
+					params.catetory = item.parent
+					params.subclass = item.name
+				} else {
+					params.catetory = item.name
+				}
+				this.$router.push({
+					name: vm.$route.name,
+					params
+				})
+			}
 		}
 	}
 }

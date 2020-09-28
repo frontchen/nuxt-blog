@@ -6,7 +6,7 @@ import logger from "morgan";
 import routes from "./routes";
 // import "./mongodb/db";
 const app = express();
-console.log(app.get("env"));
+// console.log(app.get("env"));
 // view engine setup
 // app.set("views", path.join(__dirname, "views"));
 // app.set("view engine", "ejs");

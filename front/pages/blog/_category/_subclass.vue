@@ -1,5 +1,5 @@
 <template>
-	<div>html</div>
+	<div>文章内容</div>
 </template>
 
 <script>
@@ -9,6 +9,8 @@ export default {
 	data() {
 		return {}
 	},
+	mounted() {},
+	methods: {}
 }
 </script>
 

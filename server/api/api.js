@@ -56,12 +56,12 @@ let api = {
     return new Promise((resolve, reject) => {
       return http.get("", params, services1).then(
         res => {
-          console.log(["headerres", res]);
+          // console.log(["headerres", res]);
           return resolve(parse.parse245BtHeader(res));
           // return resolve(res)
         },
         err => {
-          console.log(["headererr", err]);
+          // console.log(["headererr", err]);
           reject(err);
         }
       );
@@ -110,17 +110,23 @@ let api = {
     });
   },
   // 模糊搜索
-  search245BtBykeywords: (prefix, params) => {
+  search245BtBykeywords: params => {
     return new Promise((resolve, reject) => {
-      http.get(prefix, params, services1).then(
-        res => {
-          return resolve(parse.parse245BtSearchList(res));
-          // return resolve(res)
-        },
-        err => {
-          reject(err);
-        }
-      );
+      http
+        .get("/search.php", params, {
+          // url: "http://www.2345ys.org",
+          url: services1.url,
+          port: services1.port
+        })
+        .then(
+          res => {
+            return resolve(parse.parse245BtSearchList(res));
+            // return resolve(res)
+          },
+          err => {
+            reject(err);
+          }
+        );
     });
   }
 };

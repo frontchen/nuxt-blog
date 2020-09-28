@@ -7,7 +7,7 @@
 			</el-col>
 			<el-col :span="12" hidden-xs-only>
 				<div class="right">
-					<blog-menu :default-active="menuType" mode="horizontal" @on-select="handleSelect" :menu="rightMenu" @on-submenu-item="rightMenuItemClick"></blog-menu>
+					<blog-menu :default-active="menuType" mode="horizontal" @on-select="handlerSelect" :menu="rightMenu" @on-submenu-item="rightMenuItemClick"></blog-menu>
 				</div>
 			</el-col>
 		</el-row>
@@ -23,7 +23,7 @@
 				<div class="right">
 					<i style="font-size:20px;" class="el-icon-menu" @click="rightDrawer = true"></i>
 					<el-drawer :visible.sync="rightDrawer" :with-header="false">
-						<blog-menu menu-trigger="click" class="hidden-sm-and-up" @on-select="handleSelect" @on-submenu-item="rightMenuItemClick" :menu="mobileRightMenu"></blog-menu>
+						<blog-menu menu-trigger="click" class="hidden-sm-and-up" @on-select="handlerSelect" @on-submenu-item="rightMenuItemClick" :menu="mobileRightMenu"></blog-menu>
 					</el-drawer>
 				</div>
 			</el-col>
@@ -53,24 +53,24 @@ export default {
 			rightDrawer: false,
 			rightMenu: [
 				{
-					name: '博客',
+					label: '博客',
 					router: '/blog',
 					icon: 'icon-bokeyuan',
-					value: 'blog',
+					name: 'blog',
 					children: blog
 				},
 				{
-					name: '音乐',
+					label: '音乐',
 					router: '/music',
 					icon: 'icon-yinle',
-					value: 'music',
+					name: 'music',
 					children: music
 				},
 				{
-					name: '影视',
+					label: '影视',
 					router: '/film',
 					icon: 'icon-iconset0129',
-					value: 'film',
+					name: 'film',
 					children: film
 				}
 			]
@@ -101,12 +101,38 @@ export default {
 		handleOpen(key, keyPath) {
 			console.log(key, keyPath)
 		},
-		handleSelect({ item }) {
-			if (item && item.router) this.$router.push(item.router)
+		handlerSelect({ item, indexPath }) {
+			console.log(['child', item])
+			if (item && item.type) {
+				let params = {}
+				if (item.name && item.parent) {
+					params.catetory = item.parent
+					params.subclass = item.name
+				} else {
+					params.catetory = item.name
+				}
+				this.$store.dispatch('header/setMenuType', indexPath)
+				this.$router.push({
+					name: `${item.type}`,
+					params: params
+				})
+			}
 		},
 		rightMenuItemClick({ item }) {
-			if (item.router) {
-				this.$router.push(item.router)
+			if (item.type) {
+				let params = {}
+				if (item.name && item.parent) {
+					params.catetory = item.parent
+					params.subclass = item.name
+				} else {
+					params.catetory = item.name
+				}
+				let index = this.rightMenu.findIndex(v => v.name === item.name) || 0
+				this.$store.dispatch('header/setMenuType', [`${index}`])
+				this.$router.push({
+					path: `/${item.type}`,
+					params
+				})
 			}
 		}
 	}
