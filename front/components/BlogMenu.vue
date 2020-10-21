@@ -2,7 +2,7 @@
 	<el-menu class="el-menu-vertical-demo" :mode="mode" :background-color="backgroundColor" :text-color="textColor" unique-opened :active-text-color="activeTextColor" :default-active="activeIndex" :default-openeds="defaultOpeneds" :menu-trigger="menuTrigger" @open="handlerOpen" @close="handlerClose" @select="handlerSelect">
 		<el-submenu v-for="(item, index) in menuList" :index="`${index}`" :key="index">
 			<template slot="title">
-				<n-link no-prefetch style="display:flex;" :to="{name:item.type}" tag="div">
+				<n-link no-prefetch @click.native="submenuClick(item,index)" style="display:flex;" :to="{name:item.type}" tag="div">
 					<Icon v-if="item.icon" :name="item.icon"></Icon>
 					<span>{{ item.label }}</span>
 				</n-link>
@@ -91,16 +91,14 @@ export default {
 			let len = indexPath.length
 			let item = {}
 			if (len > 0) {
-				item = this.menuList[indexPath[0]]
-				if (indexPath[0]) item = item.children[indexPath[0]]
-				if (indexPath[1]) {
+				if (len === 1) item = item.children[indexPath[0]]
+				if (len === 2) {
 					let indexList = indexPath[1].split('-')
 					let firstItem = this.menuList[indexList[0]]
 					item = firstItem.children[indexList[1]]
 				}
 			}
 
-			console.log(['handlerSelect', item])
 			this.$emit('on-select', {
 				index,
 				indexPath,

@@ -32,6 +32,7 @@ app.all("*", function(req, res, next) {
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
   res.header("Content-Type", "application/json;charset=utf-8");
   if (req.url !== "/favicon.ico") {
+    console.log(["url", req.url]);
     if (req.method.toLowerCase() === "options") {
       // 让options尝试请求快速结束
       res.send(200);
@@ -54,7 +55,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
 
-  res.render("error");
+  // res.render("error");
 });
 
 export default app;

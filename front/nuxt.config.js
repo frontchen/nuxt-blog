@@ -36,7 +36,10 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ["@/plugins/element-ui"],
+  plugins: [
+    { src: "@/plugins/element-ui", ssr: true },
+    { src: "@/plugins/store-cache", ssr: false }
+  ],
 
   /*
    ** Nuxt.js modules
@@ -48,11 +51,11 @@ module.exports = {
    */
   build: {
     transpile: [/^element-ui/],
-
+    vendor: ["element-ui"], //为防止重复打包
     extend(config, ctx) {}
   },
   server: {
-    port: 3000, // default: 3000
+    port: 3001, // default: 3000
     host: "0.0.0.0"
   }
 };

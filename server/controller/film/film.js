@@ -1,36 +1,36 @@
 // import FilmModel from "../../model/film/film";
-import api from "../../api/api";
+import { film } from "../../api";
 class Film {
   getHeader = async (req, res) => {
-    let data = await api.get245BtHeader({}).catch(err => {
+    let data = await film.get245BtHeader({}).catch(err => {
       res.json(err);
     });
     res.json(data);
   };
   getList = async (req, res) => {
     let path = req.query.path.replace(/[\\']/g, "");
-    let data = await api.get245BtTabData(path).catch(err => {
+    let data = await film.get245BtTabData(path).catch(err => {
       res.json(err);
     });
     res.json(data);
   };
   getListItem = async (req, res) => {
     let path = req.query.path.replace(/[\\']/g, "");
-    let data = await api.get245BtListItem(path).catch(err => {
+    let data = await film.get245BtListItem(path).catch(err => {
       res.json(err);
     });
     res.json(data);
   };
   parsePlayerUrl = async (req, res) => {
     let path = req.query.path;
-    let data = await api.get245BtPlayerUrl(path).catch(err => {
+    let data = await film.get245BtPlayerUrl(path).catch(err => {
       res.json(err);
     });
     res.json(data);
   };
   searchListBywords = async (req, res) => {
     let searchword = req.query.searchword;
-    let data = await api
+    let data = await film
       .search245BtBykeywords({
         searchword: searchword
       })
