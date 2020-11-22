@@ -2,19 +2,35 @@
 	<div class="main-header">
 		<!-- PC  当视口在 <768px 尺寸时隐藏 -->
 		<el-row type="flex" align="middle" class="hidden-xs-only">
-			<el-col :span="12">
-				<div class="left">{{userName}}</div>
+			<el-col :span="12" class="header-left">
+				<el-popover v-if="userName" placement="bottom-end" width="100" trigger="hover">
+					<div class="header-left-btn">退出</div>
+					<template slot="reference">
+						<div class="header-left-label"><span class="left">{{userName}}</span><i class="el-icon-caret-bottom"></i></div>
+
+					</template>
+				</el-popover>
+
+				<div v-else class="header-left-btn">登录</div>
 			</el-col>
 			<el-col :span="12" hidden-xs-only>
 				<div class="right">
-					<blog-menu :default-active="menuType" mode="horizontal" @on-select="handleSelect" :menu="rightMenu" @on-submenu-item="rightMenuItemClick"></blog-menu>
+					<blog-menu :default-active="menuType" mode="horizontal" @on-select="handlerSelect" :menu="rightMenu" @on-submenu-item="rightMenuItemClick"></blog-menu>
 				</div>
 			</el-col>
 		</el-row>
 		<!-- mobile 当视口在 ≥768px 及以上尺寸时隐藏 -->
 		<el-row type="flex" align="middle" class="hidden-sm-and-up">
-			<el-col :span="12">
-				<div class="left" @click="leftDrawer = true">{{userName}}</div>
+			<el-col :span="12" class="header-left">
+				<el-popover v-if="userName" placement="bottom-end" width="100" trigger="hover">
+					<div class="header-left-btn">退出</div>
+					<template slot="reference">
+						<div @click="leftDrawer = true" class="header-left-label"><span class="left">{{userName}}</span><i class="el-icon-caret-bottom"></i></div>
+
+					</template>
+				</el-popover>
+
+				<div v-else class="header-left-btn">登录</div>
 				<el-drawer :visible.sync="leftDrawer" :with-header="false" direction="ltr" size="45%">
 					<blog-menu menu-trigger="click" class="hidden-sm-and-up" :default-active="leftMenuActive" :menu="leftMenuList"></blog-menu>
 				</el-drawer>
@@ -23,7 +39,7 @@
 				<div class="right">
 					<i style="font-size:20px;" class="el-icon-menu" @click="rightDrawer = true"></i>
 					<el-drawer :visible.sync="rightDrawer" :with-header="false">
-						<blog-menu menu-trigger="click" class="hidden-sm-and-up" @on-select="handleSelect" @on-submenu-item="rightMenuItemClick" :menu="mobileRightMenu"></blog-menu>
+						<blog-menu menu-trigger="click" class="hidden-sm-and-up" @on-select="handlerSelect" @on-submenu-item="rightMenuItemClick" :menu="mobileRightMenu"></blog-menu>
 					</el-drawer>
 				</div>
 			</el-col>
@@ -53,24 +69,24 @@ export default {
 			rightDrawer: false,
 			rightMenu: [
 				{
-					name: '博客',
-					router: '/blog',
+					label: '博客',
 					icon: 'icon-bokeyuan',
-					value: 'blog',
+					name: 'html',
+					type: 'blog',
 					children: blog
 				},
 				{
-					name: '音乐',
-					router: '/music',
+					label: '音乐',
 					icon: 'icon-yinle',
-					value: 'music',
+					name: 'mandarin',
+					type: 'music',
 					children: music
 				},
 				{
-					name: '影视',
-					router: '/film',
+					label: '影视',
 					icon: 'icon-iconset0129',
-					value: 'film',
+					name: 'mainland',
+					type: 'film',
 					children: film
 				}
 			]
@@ -85,7 +101,7 @@ export default {
 		},
 		leftMenuList() {
 			let item = this.rightMenu[this.menuType || 0]
-			return this.leftMenu[item.value]
+			return this.leftMenu[this.menuType]
 		},
 		mobileRightMenu() {
 			return this.rightMenu
@@ -101,12 +117,35 @@ export default {
 		handleOpen(key, keyPath) {
 			console.log(key, keyPath)
 		},
-		handleSelect({ item }) {
-			if (item && item.router) this.$router.push(item.router)
+		handlerSelect({ item, indexPath }) {
+			if (item && item.type) {
+				let path = `/${item.type}`
+				if (item.name && item.parent) {
+					path += `/${item.parent}/${item.name}`
+				} else {
+					path += `/${item.name}`
+				}
+				this.$router.push({
+					path: path
+				})
+			}
 		},
 		rightMenuItemClick({ item }) {
-			if (item.router) {
-				this.$router.push(item.router)
+			if (item.type) {
+				let params = {}
+				if (item.name && item.parent) {
+					params.catetory = item.parent
+					params.subclass = item.name
+				} else {
+					params.catetory = item.name
+				}
+				let index = this.rightMenu.findIndex(v => v.name === item.name) || 0
+				console.log(['index', index])
+				this.$store.dispatch('header/setMenuType', `${index}`)
+				this.$router.push({
+					path: `/${item.type}`,
+					params
+				})
 			}
 		}
 	}
@@ -117,7 +156,10 @@ export default {
 @import '../../assets/css/colors.less';
 
 @header-prefix: main-header;
-
+.header-left-btn {
+	color: @main-color;
+	cursor: pointer;
+}
 .@{header-prefix} {
 	width: 100%;
 	margin: 0 auto;
@@ -129,11 +171,24 @@ export default {
 			line-height: 45px;
 		}
 	}
-	.left {
-		font-size: 30px;
-		text-shadow: 5px 5px 5px black, 0px 0px 2px black;
-		color: white;
+	.header-left {
+		&-label {
+			display: inline-block;
+		}
+
+		.left {
+			font-size: 30px;
+			text-shadow: 5px 5px 5px black, 0px 0px 2px black;
+			color: @white-color;
+		}
+		.left + i {
+			margin-left: 5px;
+			height: 30px;
+			line-height: 30px;
+			color: @gray-bgColor;
+		}
 	}
+
 	/deep/ .right {
 		.el-submenu {
 			.el-submenu__title {

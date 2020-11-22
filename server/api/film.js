@@ -56,12 +56,12 @@ let api = {
     return new Promise((resolve, reject) => {
       return http.get("", params, services1).then(
         (res) => {
-          console.log(["headerres", res]);
+          // console.log(["headerres", res]);
           return resolve(parse.parse245BtHeader(res));
           // return resolve(res)
         },
         (err) => {
-          console.log(["headererr", err]);
+          // console.log(["headererr", err]);
           reject(err);
         }
       );
@@ -110,7 +110,7 @@ let api = {
     });
   },
   // 模糊搜索
-  search245BtBykeywords: (prefix, params) => {
+  search245BtBykeywords: (params) => {
     return new Promise((resolve, reject) => {
       http
         .get(prefix, params, { url: "https://www.2345ys.net", port: "" })

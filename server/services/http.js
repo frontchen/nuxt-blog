@@ -16,10 +16,13 @@ const http = {
   },
   get: (path, params, { url = "", port = 3005, code = false }) => {
     return new Promise((resolve, reject) => {
-      let apiUrl = `${config.apiUrl}:${port}${config.apiBaseUrl}${path}`;
+      let apiUrl = `${config.apiUrl}${port ? ":" + port : ""}${
+        config.apiBaseUrl
+      }${path}`;
       if (url) {
-        apiUrl = `${url}:${port}${config.apiBaseUrl}${path}`;
+        apiUrl = `${url}${port ? ":" + port : ""}${config.apiBaseUrl}${path}`;
       }
+      console.log(["params", params]);
       return superagent
         .get(apiUrl)
         .query(params)
@@ -47,9 +50,11 @@ const http = {
         ContentType = "application/x-www-form-urlencoded";
       }
 
-      let apiUrl = `${config.apiUrl}:${port}${config.apiBaseUrl}${path}`;
+      let apiUrl = `${config.apiUrl}${port ? ":" + port : ""}${
+        config.apiBaseUrl
+      }${path}`;
       if (url) {
-        apiUrl = `${url}:${port}${Config.apiBaseUrl}${path}`;
+        apiUrl = `${url}${port ? ":" + port : ""}${Config.apiBaseUrl}${path}`;
       }
 
       return instance

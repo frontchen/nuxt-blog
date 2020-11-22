@@ -1,39 +1,22 @@
 <template>
 	<div class="blog-login">
-		<el-form
-			:model="ruleForm"
-			status-icon
-			:rules="rules"
-			ref="ruleForm"
-			label-width="100px"
-			class="blog-login-form"
-		>
+		<el-form :model="accountForm" status-icon :rules="rules" ref="accountForm" label-width="100px" class="blog-login-form">
 			<el-form-item label="用户名" prop="username">
-				<el-input v-model="ruleForm.username" clearable autocomplete="off"></el-input>
+				<el-input v-model="accountForm.username" clearable autocomplete="off"></el-input>
 			</el-form-item>
 			<el-form-item label="密码" prop="password">
-				<el-input
-					:type="passwordValue?'text':'password'"
-					v-model="ruleForm.password"
-					autocomplete="off"
-					clearable
-				>
+				<el-input :type="passwordValue?'text':'password'" v-model="accountForm.password" autocomplete="off" clearable>
 					<el-switch slot="append" v-model="passwordValue"></el-switch>
 				</el-input>
 			</el-form-item>
 			<el-form-item label="确认密码" prop="repeatPassword">
-				<el-input
-					:type="repeatPasswordValue?'text':'password'"
-					v-model="ruleForm.repeatPassword"
-					clearable
-					autocomplete="off"
-				>
+				<el-input :type="repeatPasswordValue?'text':'password'" v-model="accountForm.repeatPassword" clearable autocomplete="off">
 					<el-switch slot="append" v-model="repeatPasswordValue"></el-switch>
 				</el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-row type="flex" justify="center">
-					<el-button style="width:80%;" type="primary" @click="submitForm('ruleForm')">提交</el-button>
+					<el-button style="width:80%;" type="primary" @click="submitForm('accountForm')">提交</el-button>
 				</el-row>
 			</el-form-item>
 		</el-form>
@@ -47,18 +30,18 @@ export default {
 		return {
 			passwordValue: false,
 			repeatPasswordValue: false,
-			ruleForm: {
+			accountForm: {
 				password: '',
 				username: '',
-				repeatPassword: '',
+				repeatPassword: ''
 			},
 			rules: {
 				password: [{ validator: this.passwordRule, trigger: 'blur' }],
 				username: [{ validator: this.usernameRule, trigger: 'blur' }],
 				repeatPassword: [
-					{ validator: this.repeatPasswordRule, trigger: 'blur' },
-				],
-			},
+					{ validator: this.repeatPasswordRule, trigger: 'blur' }
+				]
+			}
 		}
 	},
 	methods: {
@@ -77,20 +60,20 @@ export default {
 		repeatPasswordRule(rule, value, callback) {
 			if (value === '') {
 				callback(new Error('请再次输入密码'))
-			} else if (value !== this.ruleForm.password) {
+			} else if (value !== this.accountForm.password) {
 				callback(new Error('两次输入密码不一致!'))
 			} else {
 				callback()
 			}
 		},
 		submitForm(formName) {
-			this.$refs[formName].validate((valid) => {
-				if (valid) {
-					alert('submit!')
-				} else {
-					console.log('error submit!!')
-					return false
-				}
+			this.$refs[formName].validate(valid => {
+				if (!valid) return false
+				// let forms=this.accountForm
+				// let params={
+				// 	username:forms.username,
+				// 	password:forms.password
+				// }
 			})
 		},
 		resetForm(formName) {
@@ -98,8 +81,8 @@ export default {
 		},
 		goPage() {
 			this.$router.push('/register')
-		},
-	},
+		}
+	}
 }
 </script>
 

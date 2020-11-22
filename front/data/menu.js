@@ -1,119 +1,157 @@
 const blog = [
   {
-    name: "HTML",
+    label: "HTML",
     icon: "icon-HTML-",
-    router: "/blog/html",
+    name: "html",
+    type: "blog",
     children: [
       {
+        parent: "html",
+        label: "html5",
         name: "html5",
-        router: "/blog/html/html5"
+        type: "blog"
       }
     ]
   },
   {
-    name: "CSS",
+    label: "CSS",
     icon: "icon-css",
-    router: "/blog/css",
+    name: "css",
+    type: "blog",
     children: [
       {
+        label: "css3",
+        parent: "css",
         name: "css3",
-        path: "",
-        router: "/blog/css/css3"
+        type: "blog"
       }
     ]
   },
   {
-    name: "JAVASCRIPT",
+    label: "JAVASCRIPT",
     icon: "icon-java-script",
-    router: "/blog/javascript",
+    type: "blog",
+    name: "javascript",
     children: [
       {
-        name: "原生js",
-        router: "/blog/javascript/es"
+        label: "原生js",
+        name: "nativeJs",
+        parent: "javascript",
+        type: "blog"
       }
     ]
   },
   {
-    name: "前端框架",
+    label: "前端框架",
     icon: "icon-kuangjiaframe23",
-    router: "/blog/framework",
+    type: "blog",
+    name: "framework",
     children: [
       {
+        label: "vue",
+        parent: "framework",
         name: "vue",
-        router: "/blog/framework/vue"
+        type: "blog"
       },
       {
+        label: "react",
+        parent: "framework",
         name: "react",
-        router: "/blog/framework/react"
+        type: "blog"
       },
       {
+        label: "react-native",
+        parent: "framework",
         name: "react-native",
-        router: "/blog/framework/react-native"
+        type: "blog"
       }
     ]
   },
   {
-    name: "组件库",
+    label: "组件库",
     icon: "icon-zujian",
-    router: "/blog/component",
+    type: "blog",
+    name: "component",
     children: [
       {
+        label: "vue",
+        parent: "component",
         name: "vue",
-        router: "/blog/component/vue"
+        type: "blog"
       }
     ]
   }
 ];
 const music = [
   {
-    name: "国语",
+    label: "国语",
+    name: "mandarin",
+    type: "music",
     icon: "",
     children: []
   },
   {
-    name: "港台",
+    label: "港台",
     icon: "",
+    name: "hkAndTai",
+    type: "music",
     children: []
   },
   {
-    name: "欧美",
+    label: "欧美",
     icon: "",
+    name: "europeAndAmerica",
+    type: "music",
     children: []
   }
 ];
 const film = [
   {
-    name: "大陆",
+    label: "大陆",
+    name: "mainland",
+    type: "film",
     icon: "",
     children: []
   },
   {
-    name: "中国香港",
+    label: "中国香港",
+    name: "hongKong",
+    type: "film",
     icon: "",
     children: []
   },
   {
-    name: "中国台湾",
+    label: "中国台湾",
+    name: "taiwan",
+    type: "film",
     icon: "",
     children: []
   },
   {
-    name: "日本",
+    label: "日本",
+    type: "film",
+    name: "japan",
     icon: "",
     children: []
   },
   {
-    name: "泰国",
+    label: "泰国",
+    type: "film",
+    name: "thailand",
     icon: "",
     children: []
   },
   {
-    name: "英国",
+    label: "英国",
+    type: "film",
+    name: "unitedKingdom",
     icon: "",
     children: []
   },
   {
-    name: "新加坡",
+    label: "新加坡",
+    type: "film",
+    name: "singapore",
     icon: "",
     children: []
   }
