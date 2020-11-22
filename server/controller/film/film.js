@@ -29,15 +29,17 @@ class Film {
     res.json(data);
   };
   searchListBywords = async (req, res) => {
-    let searchword = req.query.searchword;
-    let data = await film
-      .search245BtBykeywords({
-        searchword: searchword,
+    let keyWords = req.query.keyWords;
+    let pageIndex = req.query.pageIndex;
+    console.log(["keyWords", keyWords, pageIndex]);
+    let data = await api
+      .search245BtBykeywords("/search.php", {
+        searchword: keyWords,
+        page: pageIndex,
       })
       .catch((err) => {
         res.json(err);
       });
-    // console.log("searchListBywords", data);
     res.json(data);
   };
 }
