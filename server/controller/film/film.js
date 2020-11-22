@@ -2,7 +2,7 @@
 import api from "../../api/api";
 class Film {
   getHeader = async (req, res) => {
-    let data = await api.get245BtHeader({}).catch(err => {
+    let data = await api.get245BtHeader({}).catch((err) => {
       res.json(err);
     });
     res.json(data);
@@ -10,21 +10,21 @@ class Film {
   getList = async (req, res) => {
     console.log(["req", req]);
     let path = req.query.path;
-    let data = await api.get245BtTabData(path).catch(err => {
+    let data = await api.get245BtTabData(path).catch((err) => {
       res.json(err);
     });
     res.json(data);
   };
   getListItem = async (req, res) => {
     let path = req.query.path;
-    let data = await api.get245BtListItem(path).catch(err => {
+    let data = await api.get245BtListItem(path).catch((err) => {
       res.json(err);
     });
     res.json(data);
   };
   parsePlayerUrl = async (req, res) => {
     let path = req.query.path;
-    let data = await api.get245BtPlayerUrl(path).catch(err => {
+    let data = await api.get245BtPlayerUrl(path).catch((err) => {
       res.json(err);
     });
     res.json(data);
@@ -32,12 +32,13 @@ class Film {
   searchListBywords = async (req, res) => {
     let keyWords = req.query.keyWords;
     let pageIndex = req.query.pageIndex;
+    console.log(["keyWords", keyWords, pageIndex]);
     let data = await api
       .search245BtBykeywords("/search.php", {
         searchword: keyWords,
-        page: pageIndex
+        page: pageIndex,
       })
-      .catch(err => {
+      .catch((err) => {
         res.json(err);
       });
     res.json(data);

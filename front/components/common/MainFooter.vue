@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-link href="http://www.beian.miit.gov.cn/" :underline="false">{{
+    <el-link href="https://beian.miit.gov.cn/" :underline="false">{{
       beian
     }}</el-link>
   </div>

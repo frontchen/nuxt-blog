@@ -3,31 +3,27 @@ import querystring from "querystring";
 import unit from "./unit";
 let parse = {
   /********************* www.1156zy.com api *****************/
-  parseListHtml: data => {
+  parseListHtml: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
-      xmlMode: true
+      xmlMode: true,
     });
     let header = $("#sddm").children("li");
 
     let headerData = [];
     header.each((i, v) => {
-      let a = $(v)
-        .find("a")
-        .get(0);
+      let a = $(v).find("a").get(0);
       let slideDown = [];
       let slide = [];
       if ($(v).children(`#m${i}`).length) {
-        slideDown = $(v)
-          .children(`#m${i}`)
-          .children("a");
+        slideDown = $(v).children(`#m${i}`).children("a");
         slideDown.each((index, item) => {
           let href = $(item).attr("href");
           let params = {};
           if (href.indexOf("https") < 0) {
             params = querystring.parse(href.substr(2));
             let obj = {
-              content: $(item).text()
+              content: $(item).text(),
             };
             if (Object.keys(params).length) {
               obj.params = params;
@@ -43,7 +39,7 @@ let parse = {
         params = querystring.parse(href.substr(2));
         let obj = {
           content: $(a).text(),
-          slide
+          slide,
         };
         if (Object.keys(params).length) {
           obj.params = params;
@@ -58,9 +54,7 @@ let parse = {
         let span = $(item).find("span");
         let content = "";
         let params = {};
-        let a = $(span)
-          .eq(1)
-          .find("a");
+        let a = $(span).eq(1).find("a");
         if (a) {
           content = $(a).text();
           let href = $(a).attr("href");
@@ -68,42 +62,36 @@ let parse = {
             params = querystring.parse(href.substr(2));
           }
         }
-        let sort = $(span)
-          .eq(2)
-          .text();
-        let time = $(span)
-          .eq(3)
-          .text();
+        let sort = $(span).eq(2).text();
+        let time = $(span).eq(3).text();
         let obj = {
           content,
           params,
           sort,
-          time
+          time,
         };
         bodyData.push(obj);
       }
     });
     return {
       header: headerData,
-      body: bodyData
+      body: bodyData,
     };
   },
-  parseItemHtml: res => {
+  parseItemHtml: (res) => {
     let $ = cheerio.load(res, {
       ignoreWhitespace: true,
-      xmlMode: true
+      xmlMode: true,
     });
     let data = {
       title: [],
-      list: []
+      list: [],
     };
     let vodImg = $(".warp .vodImg").find("img");
     let vodInfo = $(".warp .vodInfo .vodinfobox ul").children("li");
     data.title.push({ pic: vodImg.attr("src") });
     vodInfo.each((index, item) => {
-      let text = `${$(item).text()} ${$(item)
-        .find("span")
-        .text()}`;
+      let text = `${$(item).text()} ${$(item).find("span").text()}`;
       if (text.trim().length) {
         data.title.push({ text });
       }
@@ -116,12 +104,10 @@ let parse = {
       let list = [];
       let lis = $(item).children("li");
       lis.each((i, v) => {
-        let text = $(v)
-          .text()
-          .split("$");
+        let text = $(v).text().split("$");
         list.push({
           text: text[0],
-          path: text[1]
+          path: text[1],
         });
       });
       data.list.push(list);
@@ -129,28 +115,24 @@ let parse = {
     return data;
   },
   /********************* www.245bt.com api *****************/
-  parse245BtHeader: data => {
+  parse245BtHeader: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
-      xmlMode: true
+      xmlMode: true,
     });
     let header = $(".stui-header__menu").children("li");
     let headerData = [];
     header.each((i, v) => {
-      let a = $(v)
-        .find("a")
-        .get(0);
+      let a = $(v).find("a").get(0);
       if ($(v).children(`#m${i}`).length) {
-        slideDown = $(v)
-          .children(`#m${i}`)
-          .children("a");
+        slideDown = $(v).children(`#m${i}`).children("a");
         slideDown.each((index, item) => {
           let href = $(item).attr("href");
           let params = {};
           if (href.indexOf("https") < 0) {
             params = querystring.parse(href.substr(2));
             let obj = {
-              content: $(item).text()
+              content: $(item).text(),
             };
             if (Object.keys(params).length) {
               obj.params = params;
@@ -160,23 +142,21 @@ let parse = {
         });
       }
       let href = $(a).attr("href");
-      let content = $(a)
-        .text()
-        .trim();
+      let content = $(a).text().trim();
       if (content !== "首页" && content !== "专题" && content !== "分类") {
         headerData.push({
           title: content,
-          path: href
+          path: href,
         });
       }
     });
 
     return headerData;
   },
-  parse245BtListHtml: data => {
+  parse245BtListHtml: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
-      xmlMode: true
+      xmlMode: true,
     });
     let listTabsDom = $(".stui-screen__list").find("a");
     let listBodyDom = $(".stui-pannel_bd .stui-vodlist").children("li");
@@ -186,54 +166,41 @@ let parse = {
       let a = $(v).get(0);
       if (a) {
         tabs.push({
-          title: $(a)
-            .text()
-            .trim(),
-          path: $(a).attr("href")
+          title: $(a).text().trim(),
+          path: $(a).attr("href"),
         });
       }
     });
     listBodyDom.each((i, v) => {
-      let a = $(v)
-        .find("a")
-        .get(0);
-      let titleDom = $(v)
-        .find(".stui-vodlist__detail h4 a")
-        .get(0);
+      let a = $(v).find("a").get(0);
+      let titleDom = $(v).find(".stui-vodlist__detail h4 a").get(0);
       if (a) {
         let path = $(a).attr("href");
         let imgPath = $(a).attr("data-original");
-        let title = $(titleDom)
-          .text()
-          .trim();
+        let title = $(titleDom).text().trim();
         body.push({
           title,
           path,
-          imgPath
+          imgPath,
         });
       }
     });
 
     return {
       tabs,
-      body
+      body,
     };
   },
-  parse245BtItemHtml: data => {
+  parse245BtItemHtml: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
-      xmlMode: true
+      xmlMode: true,
     });
     let datas = {};
-    let imgPath = $(".picture")
-      .find("img")
-      .attr("data-original");
+    let imgPath = $(".picture").find("img").attr("data-original");
     let detailDom = $(".stui-content__detail");
     datas.imgPath = imgPath;
-    datas.author = detailDom
-      .find(".title")
-      .text()
-      .trim();
+    datas.author = detailDom.find(".title").text().trim();
     // 影片介绍
     let dataDom = $(".stui-content__detail").children(".data");
     let header = [];
@@ -241,18 +208,10 @@ let parse = {
       if (i === 0) {
         let labelArr = $(v)
           .find(".text-muted")
-          .map((i, el) =>
-            $(el)
-              .text()
-              .trim()
-          );
+          .map((i, el) => $(el).text().trim());
         let valueArr = $(v)
           .find("a")
-          .map((i, el) =>
-            $(el)
-              .text()
-              .trim()
-          );
+          .map((i, el) => $(el).text().trim());
         for (let index = 0; index < labelArr.length; index++) {
           const item = labelArr[index];
           for (let j = 0; j < valueArr.length; j++) {
@@ -263,19 +222,14 @@ let parse = {
           }
         }
       } else {
-        let label = $(v)
-          .find(".text-muted")
-          .text()
-          .trim();
-        let value = $(v)
-          .text()
-          .trim();
+        let label = $(v).find(".text-muted").text().trim();
+        let value = $(v).text().trim();
         if (value.indexOf("：") > -1) {
           value = value.split("：")[1];
         }
         header.push({
           label,
-          value
+          value,
         });
       }
     });
@@ -285,7 +239,7 @@ let parse = {
     let desc = [];
     desc.push({
       label: descDom.find(".text-muted").text(),
-      value: descDom.find(".detail-sketch").text()
+      value: descDom.find(".detail-sketch").text(),
     });
     // 剧集列表
     let bodyDom = $(".container ").find(".stui-pannel");
@@ -294,10 +248,7 @@ let parse = {
       if (i < bodyDom.length - 1) {
         let dom = $(v).find(".stui-pannel_hd");
         let listDoms = $(v).find(".col-pd");
-        let source = dom
-          .find(".stui-pannel__head .title")
-          .text()
-          .trim();
+        let source = dom.find(".stui-pannel__head .title").text().trim();
         let listDom = listDoms.find("li");
         if (listDom.length) {
           let list = [];
@@ -305,13 +256,13 @@ let parse = {
             let urlDom = $(item).find("a");
             list.push({
               path: urlDom.attr("href"),
-              title: urlDom.text().trim()
+              title: urlDom.text().trim(),
             });
           });
 
           body.push({
             source,
-            list: list.filter(k => k.path && k.title)
+            list: list.filter((k) => k.path && k.title),
           });
         }
       }
@@ -320,15 +271,15 @@ let parse = {
     datas.header = unit.objectArrayReduce(header, "label");
 
     datas.body = body.filter((item, index) => index !== body.length - 1);
-    datas.desc = desc.filter(v => v.label && v.value);
+    datas.desc = desc.filter((v) => v.label && v.value);
 
     return datas;
   },
-  parser245BtPlayerUrl: data => {
+  parser245BtPlayerUrl: (data) => {
     // player
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
-      xmlMode: true
+      xmlMode: true,
     });
     let iframe = $("#cciframe");
     /**
@@ -342,7 +293,7 @@ let parse = {
      * var nextPage="/play/72304-0-0.html";"
      */
     let playerUrlArr = iframe.prev()[0].children[0].data.split(";");
-    let playerUrlItem = (playerUrlArr || []).find(v => v.indexOf("now") > -1);
+    let playerUrlItem = (playerUrlArr || []).find((v) => v.indexOf("now") > -1);
     let playerUrl = "";
     try {
       playerUrl = playerUrlItem.match(/unescape\("(\S*)"\)/)[1];
@@ -350,7 +301,7 @@ let parse = {
       playerUrl = decodeURIComponent(playerUrl);
     } catch (error) {}
     return {
-      url: playerUrl
+      url: playerUrl,
     };
   },
   /**
@@ -373,51 +324,48 @@ let parse = {
   ],
    */
 
-  parse245BtSearchList: data => {
+  parse245BtSearchList: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
-      xmlMode: true
+      xmlMode: true,
     });
     let searchDom = $(
-      ".col-lg-wide-75 .stui-pannel-box .stui-pannel_bd .stui-vodlist__media"
-    ).children("li");
+      ".container .min-container .layout-body .video-list1"
+    ).children(".p0");
     let searchList = [];
     searchDom.each((i, v) => {
-      let thumbDom = $(v).find(".stui-vodlist__thumb");
-      let imgPath = thumbDom.attr("data-original");
-      let title = thumbDom.attr("title");
-      let descDom = $(v).find("p");
-      let desc = [];
-      let btn = [];
-      descDom.each((index, item) => {
-        let obj = {};
-        if (index !== descDom.length - 1) {
-          obj.title = $(item).text();
-        } else {
-          let primaryBtn = $(item).find(".btn-primary");
-          let defaultBtn = $(item).find(".btn-default");
-          btn = [
-            {
-              title: primaryBtn.text(),
-              path: primaryBtn.attr("href")
-            },
-            {
-              title: defaultBtn.text(),
-              path: defaultBtn.attr("href")
-            }
-          ];
-        }
-        desc.push(obj);
-      });
+      let a = $(v).find(".item");
+      let thumbDom = $(v).find(".title"); //剧名
+      let imgPath = $(v).find(".cover").css("background"); //图片
+      if (imgPath) {
+        imgPath = imgPath.match(/(https:\/\/\S+)/gi)[0];
+        imgPath = imgPath.substr(0, imgPath.length - 2);
+      }
+      let title = thumbDom.text();
+      let subtitle = $(v).find(".subtitle").eq(0); //演员
+      let sort = $(v).find(".subtitle").eq(1); //分类
+      let desc = [{ title: subtitle.text() }, { title: sort.text() }];
+      let btn = [
+        {
+          title: "播放",
+          path: a.attr("href"),
+        },
+        {
+          title: "详情",
+          path: a.attr("href"),
+        },
+      ];
+
       searchList.push({
         imgPath,
         title,
         desc,
-        btn
+        btn,
       });
     });
+    console.log(["searchList", searchList]);
     return searchList;
-  }
+  },
 };
 
 export default parse;

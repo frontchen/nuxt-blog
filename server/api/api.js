@@ -3,48 +3,48 @@ import parse from "../services/parse.js";
 // 公共接口
 const services = {
   url: "http://www.1156zy.com",
-  port: 80
+  port: 80,
 };
 const services1 = {
   url: "https://www.245bt.com",
-  port: ""
+  port: "",
 };
 let api = {
   /********************* www.1156zy.com api *****************/
 
   // 列表查询
-  getList: params => {
+  getList: (params) => {
     return new Promise((resolve, reject) => {
       http.get("", params, services).then(
-        res => {
+        (res) => {
           return resolve(parse.parseListHtml(res));
         },
-        err => {
+        (err) => {
           reject(err);
         }
       );
     });
   },
   // 列表搜索
-  searchList: params => {
+  searchList: (params) => {
     return new Promise((resolve, reject) => {
       http.get("?m=vod-search", params, services).then(
-        res => {
+        (res) => {
           return resolve(parse.parseListHtml(res).body);
         },
-        err => {
+        (err) => {
           reject(err);
         }
       );
     });
   },
-  getListItem: params => {
+  getListItem: (params) => {
     return new Promise((resolve, reject) => {
       http.get("", params, services).then(
-        res => {
+        (res) => {
           return resolve(parse.parseItemHtml(res));
         },
-        err => {
+        (err) => {
           reject(err);
         }
       );
@@ -52,15 +52,15 @@ let api = {
   },
   /********************* www.245bt.com api *****************/
   // 获得tabs列表
-  get245BtHeader: params => {
+  get245BtHeader: (params) => {
     return new Promise((resolve, reject) => {
       return http.get("", params, services1).then(
-        res => {
+        (res) => {
           console.log(["headerres", res]);
           return resolve(parse.parse245BtHeader(res));
           // return resolve(res)
         },
-        err => {
+        (err) => {
           console.log(["headererr", err]);
           reject(err);
         }
@@ -71,39 +71,39 @@ let api = {
   get245BtTabData: (prefix, params) => {
     return new Promise((resolve, reject) => {
       http.get(prefix, params, services1).then(
-        res => {
+        (res) => {
           return resolve(parse.parse245BtListHtml(res));
           // return resolve(res)
         },
-        err => {
+        (err) => {
           reject(err);
         }
       );
     });
   },
   // 获得明细详情
-  get245BtListItem: path => {
+  get245BtListItem: (path) => {
     return new Promise((resolve, reject) => {
       http.get(path, {}, services1).then(
-        res => {
+        (res) => {
           return resolve(parse.parse245BtItemHtml(res));
           // return resolve(res)
         },
-        err => {
+        (err) => {
           reject(err);
         }
       );
     });
   },
   // 解析视频url
-  get245BtPlayerUrl: path => {
+  get245BtPlayerUrl: (path) => {
     return new Promise((resolve, reject) => {
       http.get(path, {}, services1).then(
-        res => {
+        (res) => {
           return resolve(parse.parser245BtPlayerUrl(res));
           // return resolve(res)
         },
-        err => {
+        (err) => {
           reject(err);
         }
       );
@@ -112,16 +112,18 @@ let api = {
   // 模糊搜索
   search245BtBykeywords: (prefix, params) => {
     return new Promise((resolve, reject) => {
-      http.get(prefix, params, services1).then(
-        res => {
-          return resolve(parse.parse245BtSearchList(res));
-          // return resolve(res)
-        },
-        err => {
-          reject(err);
-        }
-      );
+      http
+        .get(prefix, params, { url: "https://www.2345ys.net", port: "" })
+        .then(
+          (res) => {
+            return resolve(parse.parse245BtSearchList(res));
+            // return resolve(res)
+          },
+          (err) => {
+            reject(err);
+          }
+        );
     });
-  }
+  },
 };
 export default api;

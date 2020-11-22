@@ -1,6 +1,6 @@
 const pkg = require("./package");
 module.exports = {
-  mode: "universal",
+  mode: "spa",
 
   /*
    ** Headers of the page
