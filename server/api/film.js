@@ -110,7 +110,7 @@ let api = {
     });
   },
   // 模糊搜索
-  search245BtBykeywords: (params) => {
+  search245BtBykeywords: (prefix, params) => {
     return new Promise((resolve, reject) => {
       http
         .get(prefix, params, { url: "https://www.2345ys.net", port: "" })

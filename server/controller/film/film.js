@@ -28,19 +28,20 @@ class Film {
     });
     res.json(data);
   };
-  searchListBywords = async (req, res) => {
+  searchListBywords = (req, res) => {
     let keyWords = req.query.keyWords;
     let pageIndex = req.query.pageIndex;
-    console.log(["keyWords", keyWords, pageIndex]);
-    let data = await api
+    film
       .search245BtBykeywords("/search.php", {
         searchword: keyWords,
         page: pageIndex,
       })
+      .then((data) => {
+        res.json(data || []);
+      })
       .catch((err) => {
         res.json(err);
       });
-    res.json(data);
   };
 }
 export default new Film();
