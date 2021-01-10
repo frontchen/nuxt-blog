@@ -1,0 +1,29 @@
+@import './font/iconfont.css';
+@import './colors';
+@import './components/alert';
+
+.hover(@color: @ims-hover-bdcolor) {
+  border-color: @color;
+}
+
+.active(@color: @ims-hover-bdcolor) {
+  border-color: @color;
+  outline: 0;
+  box-shadow: none;
+}
+
+// 文本多出部分隐藏，并显示...
+.textHide() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ims-loading {
+  &-parent-relative {
+    position: relative !important;
+  }
+  &-parent-hidden {
+    overflow: hidden !important;
+  }
+}

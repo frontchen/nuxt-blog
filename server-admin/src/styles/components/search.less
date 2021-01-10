@@ -1,0 +1,232 @@
+@iview-select-cls: el-select;
+@iview-input-cls: el-input;
+@iview-datepicker-cls: el-date-picker;
+@seach-inner-width: 200px;
+@search-inner-height: 26px;
+
+.ims-com-search-bar {
+  height: 40px;
+  margin-bottom: 14px;
+  background: @ims-search-bar-bgColor;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  // serach button
+  .search-button {
+    margin-left: 10px;
+    width: 64px;
+    height: @search-inner-height;
+    border-radius: 2px;
+    padding: 0;
+    border: 0;
+    background: @ims-main-color;
+    color: @ims-white-color;
+  }
+  .search-button-disabled {
+    cursor: not-allowed;
+    background: @ims-button-cancel-border;
+  }
+  .text,
+  .button {
+    line-height: @search-inner-height;
+    .search-icon {
+      vertical-align: middle;
+    }
+  }
+  .button {
+    cursor: pointer;
+  }
+  .right {
+    line-height: @search-inner-height;
+    padding-right: 10px;
+  }
+  .search-icon {
+    font-size: 20px;
+    color: @ims-main-color;
+    margin-right: 5px;
+  }
+  .btn-disabled {
+    color: fade(@ims-black-color, 35%);
+    cursor: not-allowed;
+    .search-icon {
+      color: fade(@ims-black-color, 35%);
+    }
+  }
+  .container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    label {
+      margin-right: 7px;
+      vertical-align: middle;
+    }
+    .leftWrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      .row {
+        margin-left: 10px;
+      }
+    }
+    .rightWrapper {
+      align-items: flex-end;
+      display: flex;
+      flex-direction: row;
+      .row {
+        margin-right: 10px;
+      }
+      .text {
+        span {
+          display: inline-block;
+          width: 120px;
+        }
+      }
+      .ims-date-picker,
+      .el-select,
+      .el-cascader,
+      .el-input-wrapper {
+        width: 120px;
+        display: inline-block;
+      }
+    }
+  }
+
+  // 覆盖默认样式
+  .ims-date-picker,
+  .el-select,
+  .el-cascader,
+  .el-input-wrapper {
+    width: @seach-inner-width;
+  }
+  /deep/ .el-col {
+    padding-right: 10px;
+    &:last-child {
+      padding-right: 0px;
+    }
+  }
+  /deep/ .el-select-multiple {
+    height: 26px;
+    .el-select-selection {
+      overflow: hidden;
+      .el-poptip {
+        height: 26px;
+      }
+      & > div {
+        font-size: 12px;
+        height: 26px;
+        line-height: 26px;
+        text-align: center;
+      }
+      .el-select-placeholder {
+        height: 26px;
+        line-height: 26px;
+        padding: 0px;
+        text-align: center;
+      }
+    }
+  }
+  // cascader
+  /deep/ .el-cascader {
+    &-label {
+      text-align: center;
+      line-height: 26px;
+      color: @ims-table-color;
+      padding: 0 24px 0 8px;
+    }
+    .el-poptip {
+      width: 100%;
+      &-rel {
+        width: 100%;
+      }
+    }
+  }
+  // select
+  /deep/ .@{iview-select-cls} {
+    &-selection {
+      border-color: @ims-hover-bdcolor;
+      &:hover,
+      &-focused {
+        .hover();
+      }
+    }
+    &-visible {
+      .@{iview-select-cls}-selection {
+        .active();
+      }
+    }
+    &-single .@{iview-select-cls}-selection {
+      height: @search-inner-height;
+      .@{iview-select-cls}-placeholder,
+      .@{iview-select-cls}-selected-value {
+        height: @search-inner-height;
+        line-height: @search-inner-height;
+        text-align: center;
+      }
+      .el-select-placeholder {
+        color: @ims-gray2-color;
+      }
+      .el-select-selected-value {
+        color: @ims-table-color;
+      }
+    }
+    &-input {
+      height: @search-inner-height;
+      line-height: @search-inner-height;
+      vertical-align: middle;
+      text-align: center;
+      color: @ims-table-color;
+    }
+    &-not-found li {
+      font-size: 12px;
+    }
+  }
+  // input
+  /deep/ .@{iview-input-cls} {
+    color: @ims-table-color;
+    height: @search-inner-height;
+    text-align: center;
+    border-color: @ims-hover-bdcolor;
+    &-prefix i,
+    &-suffix i {
+      height: @search-inner-height;
+      line-height: @search-inner-height;
+    }
+    &:hover {
+      .hover();
+    }
+    &:focus {
+      .active();
+    }
+    &-icon {
+      height: 26px;
+      line-height: 26px;
+    }
+  }
+  // date-picker
+  /deep/ .@{iview-datepicker-cls} {
+    &-focused input {
+      .active();
+    }
+    .icon-calendar {
+      font-weight: 500;
+    }
+    .el-date-picker-cells-cell-today {
+      em:after {
+        background: @ims-main-color;
+      }
+    }
+    .el-date-picker-cells-cell-selected,
+    .el-date-picker-cells-cell-selected:hover {
+      em {
+        background: @ims-main-color;
+      }
+    }
+    .el-date-picker-cells-cell-range:before {
+      background: @ims-search-bar-bgColor;
+    }
+    .el-btn-primary {
+      background-color: @ims-main-color;
+      border-color: @ims-main-color;
+    }
+  }
+}

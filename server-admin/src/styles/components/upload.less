@@ -1,0 +1,46 @@
+.ims-com-upload {
+  /deep/ .ivu-upload {
+    width: 100%;
+    height: 100%;
+    margin-right: 10px;
+    &:last-child {
+      margin-right: 0px;
+    }
+    &-drag {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-style: dotted;
+      .com-upload-img {
+        width: 100%;
+        height: 100%;
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        margin: 2px;
+
+        &:hover {
+          .com-upload-list-cover {
+            display: block;
+          }
+        }
+        .com-upload-list-cover {
+          display: none;
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.6);
+          i {
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            margin: 0 2px;
+          }
+        }
+      }
+    }
+  }
+}

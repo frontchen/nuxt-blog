@@ -1,0 +1,75 @@
+.ims-com-alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ivu-modal {
+    top: 0;
+    margin: 0; // IE
+    &-content {
+      border-radius: 14px;
+    }
+    &-body {
+      padding: 0;
+    }
+  }
+  &-close {
+    font-size: 12px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    .ivu-icon-ios-close {
+      font-size: 31px;
+      color: @ims-main-menu-color;
+      transition: color 0.2s ease;
+      position: relative;
+      top: 1px;
+      &:hover {
+        color: #444;
+      }
+    }
+  }
+  &-head-title {
+    font-size: 18px;
+    padding-bottom: 19px;
+    font-weight: bold;
+    color: @modal-confirm-title;
+  }
+  &-body {
+    font-size: 16px;
+    line-height: 26px;
+    letter-spacing: 0;
+    color: @modal-confirm-body;
+  }
+  &-footer {
+    display: flex;
+    flex-direction: row;
+
+    button {
+      flex: 1;
+      height: 66px;
+      border-radius: 0;
+      border-color: @btn-default-border;
+      span {
+        font-size: 16px;
+        color: @ims-main-color;
+      }
+      &:first-child {
+        border-bottom-left-radius: 14px;
+        border-right: 0;
+      }
+      &:last-child {
+        border-bottom-right-radius: 14px;
+      }
+      &:hover,
+      &:focus,
+      &:link,
+      &.active,
+      &:visited {
+        border-color: @btn-default-border;
+        box-shadow: none;
+      }
+    }
+  }
+}

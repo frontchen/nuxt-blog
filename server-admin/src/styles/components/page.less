@@ -1,0 +1,47 @@
+.ims-com-page {
+  background: @ims-search-bgColor;
+  height: 28px;
+  line-height: 28px;
+  border: 1px solid @ims-bread-border-color;
+  border-top: 0;
+  .page-button {
+    padding-left: 10px;
+  }
+  .ims-page-prev {
+    -moz-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    transform: scaleX(-1);
+    /*IE*/
+    filter: FlipH;
+  }
+  span {
+    color: @ims-main-menu-color;
+  }
+  .page-number {
+    text-align: right;
+    margin-right: 10px;
+    color: @ims-main-menu-color;
+  }
+  // 覆盖原有样式
+  /deep/ .el-icon-arrow-left,
+  .ivu-icon-md-skip-forward,
+  .ivu-icon-md-play {
+    cursor: pointer;
+    color: @ims-main-menu-color;
+  }
+  // input
+  /deep/ .ivu-input {
+    width: 21px;
+    height: 15px;
+    line-height: 15px;
+    padding: 0;
+    border-radius: 0;
+    text-align: center;
+    &-wrapper {
+      width: 21px;
+      height: 15px;
+      line-height: 15px;
+    }
+  }
+}

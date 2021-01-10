@@ -1,0 +1,86 @@
+.ims-com-rule {
+  * {
+    box-sizing: border-box;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    clear: both;
+    overflow: hidden;
+  }
+  .rule {
+    .grid {
+      margin-top: 10px;
+      float: left;
+      width: 10px;
+      height: 10px;
+      border-right: 1px solid @ims-line-color;
+      position: relative;
+      span {
+        position: absolute;
+        right: 1px;
+        top: -3px;
+        font-size: 12px;
+        color: @ims-black2-color;
+      }
+    }
+    .grid-first {
+      width: 10px;
+      height: 10px;
+      border-left: 1px solid @ims-line-color;
+      span {
+        left: 0px;
+        right: unset;
+        top: -13px;
+      }
+    }
+    .grid-half {
+      margin-top: 5px;
+      height: 15px;
+    }
+    .grid-full {
+      margin-top: 0;
+      height: 20px;
+    }
+  }
+  .rule-vertical {
+    .grid {
+      margin-top: 0px;
+      margin-left: 10px;
+      float: none;
+      width: 10px;
+      height: 10px;
+      border-left: none;
+      border-bottom: 1px solid @ims-line-color;
+      position: relative;
+      span {
+        position: absolute;
+        left: -1px;
+        bottom: -3px;
+        right: unset;
+        top: unset;
+        font-size: 12px;
+        color: @ims-black2-color;
+      }
+    }
+    .grid-first {
+      width: 10px;
+      height: 10px;
+      border-top: 1px solid @ims-line-color;
+      span {
+        top: -2px;
+        left: -10px;
+        bottom: unset;
+      }
+    }
+    .grid-half {
+      margin-left: 5px;
+      width: 15px;
+    }
+    .grid-full {
+      margin-left: 0;
+      width: 20px;
+    }
+  }
+}
