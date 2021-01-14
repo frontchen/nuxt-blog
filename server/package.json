@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development  nodemon ./bin/www --exec babel-node --presets es2015,stage-2",
     "start": "cross-env NODE_ENV=production nodemon ./bin/www --exec babel-node --presets es2015,stage-2",
-    "uat": "cross-env NODE_ENV=uat  nodemon ./bin/www  --exec babel-node --presets es2015,stage-2"
+    "uat": "cross-env NODE_ENV=uat  nodemon ./bin/www  --exec babel-node --presets es2015,stage-2",
+    "prod": "pm2 start ./server.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
@@ -21,6 +22,8 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "cross-env": "^7.0.2",
