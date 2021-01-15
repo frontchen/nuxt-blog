@@ -73,7 +73,7 @@ const apiConfig = {
   apiUrl: "https://www.245bt.com",
   port: "",
 };
-module.exports = {
+export default {
   apiUrl: "http://api.1156zy.chenzhen.work",
   apiBaseUrl: "",
   dbconfig,

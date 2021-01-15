@@ -6,8 +6,8 @@ const services = {
   port: 80,
 };
 const services1 = {
-  url: "https://www.245bt.com",
-  port: "",
+  url: "http://www.245bt.com",
+  port: 80,
 };
 let api = {
   /********************* www.1156zy.com api *****************/
@@ -56,7 +56,7 @@ let api = {
     return new Promise((resolve, reject) => {
       return http.get("", params, services1).then(
         (res) => {
-          // console.log(["headerres", res]);
+          console.log(["headerres", res]);
           return resolve(parse.parse245BtHeader(res));
           // return resolve(res)
         },
@@ -82,8 +82,14 @@ let api = {
     });
   },
   // 获得明细详情
-  get245BtListItem: (path) => {
+  get245BtListItem: (path, search) => {
     return new Promise((resolve, reject) => {
+      let server = {
+        ...services1,
+      };
+      if (search) {
+        server.url = "https://www.2345ys.net";
+      }
       http.get(path, {}, services1).then(
         (res) => {
           return resolve(parse.parse245BtItemHtml(res));

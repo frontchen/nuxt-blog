@@ -15,24 +15,10 @@
 							<el-dropdown-item command="en-US">英文</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
-					<el-dropdown @command="toggleLang">
-						<span class="el-dropdown-link">
-							{{ lang }}<i class="el-icon-arrow-down el-icon--right"></i>
-						</span>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item command="zh-CN">中文</el-dropdown-item>
-							<el-dropdown-item command="en-US">英文</el-dropdown-item>
-						</el-dropdown-menu>
-					</el-dropdown>
 				</el-col>
 			</el-row>
 		</el-header>
-		<el-drawer
-			custom-class="ims-menu"
-			:with-header="false"
-			:visible.sync="drawer"
-			direction="ltr"
-		>
+		<el-drawer custom-class="ims-menu" :with-header="false" :visible.sync="drawer" direction="ltr">
 			<main-menu></main-menu>
 		</el-drawer>
 	</div>
@@ -45,7 +31,7 @@ import MainMenu from './MainMenu'
 export default {
 	name: 'page-main-header',
 	components: {
-		'main-menu': MainMenu,
+		'main-menu': MainMenu
 	},
 	data() {
 		return {
@@ -53,8 +39,8 @@ export default {
 			lang: '中文',
 			langEnum: {
 				['zh-CN']: '中文',
-				['en-US']: '英文',
-			},
+				['en-US']: '英文'
+			}
 		}
 	},
 	computed: {
@@ -62,9 +48,9 @@ export default {
 			userInfo: (state) =>
 				state.account.userInfo || {
 					cname: this.$t('common.companyName'),
-					uname: '',
-				},
-		}),
+					uname: ''
+				}
+		})
 	},
 	methods: {
 		toggleLang(lang) {
@@ -74,8 +60,8 @@ export default {
 		},
 		logout() {
 			permission.logout()
-		},
-	},
+		}
+	}
 }
 </script>
 

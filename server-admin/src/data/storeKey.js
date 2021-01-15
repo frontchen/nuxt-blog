@@ -1,5 +1,5 @@
 // 缓存前缀
-const prefix = 'ims'
+const prefix = 'server'
 
 // localStorage
 const localKey = {}

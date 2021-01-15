@@ -1,0 +1,11 @@
+{
+  "apps": [{
+    "name": "service",  
+    "script": "./bin/www",
+    "exec_interpreter": "./node_modules/.bin/babel-node", 
+    "exec_mode": "fork",
+    "error_file":"./logs/error.log",
+    "out_file":"./logs/out.log", 
+    "log_date_format":"YYYY-MM-DD HH:mm Z" 
+    }]
+}

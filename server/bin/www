@@ -7,11 +7,12 @@ import app from "../app";
 import debug from "debug";
 const blogDebug = debug("service:server");
 import http from "http";
-import { config } from "../config";
+// import globalConfig from "../config";
 /**
  * Get port from environment and store in Express.
  */
-const port = config.port;
+// const config=globalConfig?globalConfig.config:null
+const port = 5000;
 app.set("port", port);
 
 /**
