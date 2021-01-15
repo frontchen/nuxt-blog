@@ -10,15 +10,17 @@
 						<span class="el-dropdown-link">
 							{{ lang }}<i class="el-icon-arrow-down el-icon--right"></i>
 						</span>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item command="zh-CN">中文</el-dropdown-item>
-							<el-dropdown-item command="en-US">英文</el-dropdown-item>
-						</el-dropdown-menu>
+						<template #dropdown>
+							<el-dropdown-menu>
+								<el-dropdown-item command="zh-CN">中文</el-dropdown-item>
+								<el-dropdown-item command="en-US">英文</el-dropdown-item>
+							</el-dropdown-menu>
+						</template>
 					</el-dropdown>
 				</el-col>
 			</el-row>
 		</el-header>
-		<el-drawer custom-class="ims-menu" :with-header="false" :visible.sync="drawer" direction="ltr">
+		<el-drawer custom-class="ims-menu" :with-header="false" v-model="drawer" direction="ltr">
 			<main-menu></main-menu>
 		</el-drawer>
 	</div>
