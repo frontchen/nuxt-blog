@@ -7,11 +7,11 @@ const services = {
 };
 const services1 = {
   url: "https://www.245bt.com",
-  port: 80,
+  port: "",
 };
 const services2 = {
   url: "https://www.2345ys.net",
-  port: 80,
+  port: "",
 };
 let api = {
   /********************* www.1156zy.com api *****************/
@@ -92,13 +92,16 @@ let api = {
       let server = {
         ...services1,
       };
-      if (search) {
+      if (search === "true") {
         server = {
           ...services2,
         };
       }
       http.get(path, {}, server).then(
         (res) => {
+          if (search === "true") {
+            return resolve(parse.parse245BtSearchHtml(res));
+          }
           return resolve(parse.parse245BtItemHtml(res));
           // return resolve(res)
         },
