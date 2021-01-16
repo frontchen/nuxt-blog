@@ -414,7 +414,7 @@ let parse = {
       let imgPath = $(v).find(".cover").css("background"); //图片
       if (imgPath) {
         imgPath = imgPath.match(/(https:\/\/\S+)/gi)[0];
-        imgPath = imgPath.substr(0, imgPath.length - 2);
+        imgPath = imgPath.substr(0, imgPath.length - 1);
       }
       let title = thumbDom.text();
       let subtitle = $(v).find(".subtitle").eq(0); //演员

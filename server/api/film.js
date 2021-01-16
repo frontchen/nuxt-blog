@@ -10,7 +10,7 @@ const services1 = {
   port: 80,
 };
 const services2 = {
-  url: "https://www.2345ys.net/",
+  url: "https://www.2345ys.net",
   port: 80,
 };
 let api = {
@@ -60,7 +60,7 @@ let api = {
     return new Promise((resolve, reject) => {
       return http.get("", params, services1).then(
         (res) => {
-          // console.log(["headerres", res]);
+          console.log(["headerres", res]);
           return resolve(parse.parse245BtHeader(res));
           // return resolve(res)
         },
@@ -86,10 +86,17 @@ let api = {
     });
   },
   // 获得明细详情
-  get245BtListItem: (path, type) => {
-    let option = type || type === "search" ? services2 : services1;
+  get245BtListItem: (path, search) => {
     return new Promise((resolve, reject) => {
-      http.get(path, {}, option).then(
+      let server = {
+        ...services1,
+      };
+      if (search) {
+        server = {
+          ...services2,
+        };
+      }
+      http.get(path, {}, services1).then(
         (res) => {
           return resolve(parse.parse245BtItemHtml(res));
           // return resolve(res)

@@ -1,7 +1,6 @@
 import UserModal from "../../model/user/user";
 class User {
-  register = (req, res, next) => {
-    console.log(["req", req]);
+  register = (req, res, ) => {
     const { username, password } = req.body || {};
     if (!username) {
       return res.send({
