@@ -88,6 +88,7 @@ let api = {
   // 获得明细详情
   get245BtListItem: (path, search) => {
     return new Promise((resolve, reject) => {
+      console.log([path, search]);
       let server = {
         ...services1,
       };
@@ -96,7 +97,7 @@ let api = {
           ...services2,
         };
       }
-      http.get(path, {}, services1).then(
+      http.get(path, {}, server).then(
         (res) => {
           return resolve(parse.parse245BtItemHtml(res));
           // return resolve(res)
