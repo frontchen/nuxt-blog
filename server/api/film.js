@@ -7,7 +7,11 @@ const services = {
 };
 const services1 = {
   url: "https://www.245bt.com",
-  port: "",
+  port: 80,
+};
+const services2 = {
+  url: "https://www.2345ys.net/",
+  port: 80,
 };
 let api = {
   /********************* www.1156zy.com api *****************/
@@ -82,9 +86,10 @@ let api = {
     });
   },
   // 获得明细详情
-  get245BtListItem: (path) => {
+  get245BtListItem: (path, type) => {
+    let option = type || type === "search" ? services2 : services1;
     return new Promise((resolve, reject) => {
-      http.get(path, {}, services1).then(
+      http.get(path, {}, option).then(
         (res) => {
           return resolve(parse.parse245BtItemHtml(res));
           // return resolve(res)
@@ -112,17 +117,15 @@ let api = {
   // 模糊搜索
   search245BtBykeywords: (prefix, params) => {
     return new Promise((resolve, reject) => {
-      http
-        .get(prefix, params, { url: "https://www.2345ys.net", port: "" })
-        .then(
-          (res) => {
-            return resolve(parse.parse245BtSearchList(res));
-            // return resolve(res)
-          },
-          (err) => {
-            reject(err);
-          }
-        );
+      http.get(prefix, params, services2).then(
+        (res) => {
+          return resolve(parse.parse245BtSearchList(res));
+          // return resolve(res)
+        },
+        (err) => {
+          reject(err);
+        }
+      );
     });
   },
 };

@@ -197,59 +197,60 @@ let parse = {
       xmlMode: true,
     });
     let datas = {};
-    let imgPath = $(".picture").find("img").attr("data-original");
-    let detailDom = $(".stui-content__detail");
-    datas.imgPath = imgPath;
-    datas.author = detailDom.find(".title").text().trim();
-    // 影片介绍
-    let dataDom = $(".stui-content__detail").children(".data");
-    let header = [];
-    dataDom.each((i, v) => {
-      if (i === 0) {
-        let labelArr = $(v)
-          .find(".text-muted")
-          .map((i, el) => $(el).text().trim());
-        let valueArr = $(v)
-          .find("a")
-          .map((i, el) => $(el).text().trim());
-        for (let index = 0; index < labelArr.length; index++) {
-          const item = labelArr[index];
-          for (let j = 0; j < valueArr.length; j++) {
-            const jItem = valueArr[j];
-            if (index === j) {
-              header.push({ label: item, value: jItem });
-            }
-          }
-        }
-      } else {
-        let label = $(v).find(".text-muted").text().trim();
-        let value = $(v).text().trim();
-        if (value.indexOf("：") > -1) {
-          value = value.split("：")[1];
-        }
-        header.push({
-          label,
-          value,
-        });
+    const container = $(".min-container");
+    if (container) {
+      let imgEl = $(".min-container .video-list .media-cover");
+      let imgPath = imgEl ? imgEl.css("background") : "";
+      if (imgPath) {
+        imgPath = imgPath.match(/(https:\/\/\S+)/gi)[0];
+        imgPath = imgPath.substr(0, imgPath.length - 2);
       }
-    });
-    let descDom = $(".stui-content__detail").find(".desc");
+      let detailDom = $(".min-container .media-body");
+      datas.imgPath = imgPath;
+      let author = detailDom.find(".media-heading").text().trim();
+      let count = detailDom.find(".media-score").text().trim();
+      datas.author = `${author}${count ? "(" + count + ")" : ""}`; //片名
+      // 影片介绍
+      let header = [];
+      let dataDom = detailDom.find("p");
+      dataDom.each((i, v) => {
+        if (i === 2) {
+          $(v)
+            .children(".text-muted")
+            .each((item) => {
+              header.push({
+                label: $(item).text().trim(),
+                value: $(item).next().text().trim(),
+              });
+            });
+        } else {
+          let label = $(v).find(".text-muted").text().trim();
+          let value = $(v).text().trim();
+          if (value.indexOf("：") > -1) {
+            value = value.split("：")[1];
+          }
+          header.push({
+            label,
+            value,
+          });
+        }
+      });
+      // 剧情简介
+      let descDom = container.find(".layout").eq(7);
+      let desc = [];
+      desc.push({
+        label: descDom.find(".layout-head h4").text(),
+        value: descDom.find(".layout-body .content-des").text(),
+      });
 
-    // 剧情简介
-    let desc = [];
-    desc.push({
-      label: descDom.find(".text-muted").text(),
-      value: descDom.find(".detail-sketch").text(),
-    });
-    // 剧集列表
-    let bodyDom = $(".container ").find(".stui-pannel");
-    let body = [];
-    bodyDom.each((i, v) => {
-      if (i < bodyDom.length - 1) {
-        let dom = $(v).find(".stui-pannel_hd");
-        let listDoms = $(v).find(".col-pd");
-        let source = dom.find(".stui-pannel__head .title").text().trim();
-        let listDom = listDoms.find("li");
+      // 剧集列表
+      let bodyDom = container.find(".layout").filter(() => {
+        return $(this).find(".playlist");
+      });
+      let body = [];
+      bodyDom.each((i, v) => {
+        let source = $(v).find(".layout-head h4").text().trim();
+        let listDom = $(v).find(".playlist li");
         if (listDom.length) {
           let list = [];
           listDom.each((index, item) => {
@@ -265,13 +266,87 @@ let parse = {
             list: list.filter((k) => k.path && k.title),
           });
         }
-      }
-    });
+      });
+      datas.header = unit.objectArrayReduce(header.filter(v=>v.label&&v.value), "label");
+      datas.body = body.filter((item, index) => index !== body.length - 1);
+      datas.desc = desc.filter((v) => v.label && v.value);
+    } else {
+      let imgPath = $(".picture").find("img").attr("data-original");
+      let detailDom = $(".stui-content__detail");
+      datas.imgPath = imgPath;
+      datas.author = detailDom.find(".title").text().trim();
+      // 影片介绍
+      let dataDom = $(".stui-content__detail").children(".data");
+      let header = [];
+      dataDom.each((i, v) => {
+        if (i === 0) {
+          let labelArr = $(v)
+            .find(".text-muted")
+            .map((i, el) => $(el).text().trim());
+          let valueArr = $(v)
+            .find("a")
+            .map((i, el) => $(el).text().trim());
+          for (let index = 0; index < labelArr.length; index++) {
+            const item = labelArr[index];
+            for (let j = 0; j < valueArr.length; j++) {
+              const jItem = valueArr[j];
+              if (index === j) {
+                header.push({ label: item, value: jItem });
+              }
+            }
+          }
+        } else {
+          let label = $(v).find(".text-muted").text().trim();
+          let value = $(v).text().trim();
+          if (value.indexOf("：") > -1) {
+            value = value.split("：")[1];
+          }
+          header.push({
+            label,
+            value,
+          });
+        }
+      });
+      let descDom = $(".stui-content__detail").find(".desc");
 
-    datas.header = unit.objectArrayReduce(header, "label");
+      // 剧情简介
+      let desc = [];
+      desc.push({
+        label: descDom.find(".detail .text-muted").text(),
+        value: descDom.find(".detail-content").text(),
+      });
+      // 剧集列表
+      let bodyDom = $(".container ").find(".stui-pannel");
+      let body = [];
+      bodyDom.each((i, v) => {
+        if (i < bodyDom.length - 1) {
+          let dom = $(v).find(".stui-pannel_hd");
+          let listDoms = $(v).find(".col-pd");
+          let source = dom.find(".stui-pannel__head .title").text().trim();
+          let listDom = listDoms.find("li");
+          if (listDom.length) {
+            let list = [];
+            listDom.each((index, item) => {
+              let urlDom = $(item).find("a");
+              list.push({
+                path: urlDom.attr("href"),
+                title: urlDom.text().trim(),
+              });
+            });
 
-    datas.body = body.filter((item, index) => index !== body.length - 1);
-    datas.desc = desc.filter((v) => v.label && v.value);
+            body.push({
+              source,
+              list: list.filter((k) => k.path && k.title),
+            });
+          }
+        }
+      });
+
+      datas.header = unit.objectArrayReduce(header, "label");
+
+      datas.body = body.filter((item, index) => index !== body.length - 1);
+      datas.desc = desc.filter((v) => v.label && v.value);
+    }
 
     return datas;
   },
