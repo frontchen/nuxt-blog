@@ -60,12 +60,10 @@ let api = {
     return new Promise((resolve, reject) => {
       return http.get("", params, services1).then(
         (res) => {
-          console.log(["headerres", res]);
           return resolve(parse.parse245BtHeader(res));
           // return resolve(res)
         },
         (err) => {
-          // console.log(["headererr", err]);
           reject(err);
         }
       );
@@ -88,7 +86,6 @@ let api = {
   // 获得明细详情
   get245BtListItem: (path, search) => {
     return new Promise((resolve, reject) => {
-      console.log([path, search]);
       let server = {
         ...services1,
       };
@@ -112,12 +109,19 @@ let api = {
     });
   },
   // 解析视频url
-  get245BtPlayerUrl: (path) => {
+  get245BtPlayerUrl: (path, search) => {
+    let server = {
+      ...services1,
+    };
+    if (search === "true") {
+      server = {
+        ...services2,
+      };
+    }
     return new Promise((resolve, reject) => {
-      http.get(path, {}, services1).then(
+      http.get(path, {}, server).then(
         (res) => {
           return resolve(parse.parser245BtPlayerUrl(res));
-          // return resolve(res)
         },
         (err) => {
           reject(err);

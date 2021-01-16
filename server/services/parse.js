@@ -191,6 +191,7 @@ let parse = {
       body,
     };
   },
+  //解析搜索列表明细数据
   parse245BtSearchHtml: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
@@ -274,6 +275,7 @@ let parse = {
     datas.desc = desc.filter((v) => v.label && v.value);
     return datas;
   },
+  // 解析列表明细数据
   parse245BtItemHtml: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
@@ -355,9 +357,9 @@ let parse = {
 
     datas.body = body.filter((item, index) => index !== body.length - 1);
     datas.desc = desc.filter((v) => v.label && v.value);
-    console.log(["datas", datas]);
     return datas;
   },
+  // 解析列表播放视频url
   parser245BtPlayerUrl: (data) => {
     // player
     let $ = cheerio.load(data, {
@@ -387,32 +389,13 @@ let parse = {
       url: playerUrl,
     };
   },
-  /**
-   * @returns : [
-    {
-      imgPath: '',
-      title: '',
-      desc: [
-        {
-          title: ''
-        }
-      ],
-      btn: [
-        {
-          title: '',
-          path: ''
-        }
-      ]
-    }
-  ],
-   */
 
+  //解析搜索列表
   parse245BtSearchList: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
       xmlMode: true,
     });
-    console.log(["parse245BtSearchList", data]);
     let searchDom = $(
       ".container .min-container .layout-body .video-list1"
     ).children(".p0");
@@ -447,7 +430,6 @@ let parse = {
         btn,
       });
     });
-    console.log(["searchList", searchList]);
     return searchList;
   },
 };
