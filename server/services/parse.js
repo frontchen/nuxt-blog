@@ -366,6 +366,9 @@ let parse = {
       ignoreWhitespace: true,
       xmlMode: true,
     });
+    let iframeContainer = $(".stui-player__iframe").length
+      ? $(".stui-player__iframe")
+      : $(".playinfo .play");
     let iframe = $("#cciframe");
     /**
      * "var vid="72304";
@@ -377,17 +380,27 @@ let parse = {
      * var prePage="/play/72304-0-0.html";
      * var nextPage="/play/72304-0-0.html";"
      */
-    let playerUrlArr = iframe.prev()[0].children[0].data.split(";");
-    let playerUrlItem = (playerUrlArr || []).find((v) => v.indexOf("now") > -1);
-    let playerUrl = "";
-    try {
-      playerUrl = playerUrlItem.match(/unescape\("(\S*)"\)/)[1];
+    const res = { url: "" };
+    if (!iframe) {
+      return res;
+    }
+    if (iframe.attr("contentWindow")) {
+      let doc = iframe.attr("contentWindow").document;
+      res.url = doc.getElementId("zzapi").getAttribute("src");
+    } else {
+      let playerUrlArr = iframeContainer.find("script").html().split(";");
+      let playerUrlItem = (playerUrlArr || []).find(
+        (v) => v.indexOf("now") > -1
+      );
+      let playerUrl = "";
+      try {
+        playerUrl = playerUrlItem.match(/unescape\("(\S*)"\)/)[1];
+        playerUrl = decodeURIComponent(playerUrl);
+      } catch (error) {}
 
-      playerUrl = decodeURIComponent(playerUrl);
-    } catch (error) {}
-    return {
-      url: playerUrl,
-    };
+      res.url = playerUrl;
+    }
+    return res;
   },
 
   //解析搜索列表

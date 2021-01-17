@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: false })); // parse application/x-www-for
 
 routes(app);
 //处理跨域请求
-app.all("*", function(req, res, next) {
+app.all("*", function (req, res, next) {
   // const orginList = ['http://www.maguochang.com']
   // if (orginList.includes(req.headers.origin.toLowerCase())) {
   //   //设置允许跨域的域名，*代表允许任意域名跨域
@@ -42,12 +42,12 @@ app.all("*", function(req, res, next) {
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

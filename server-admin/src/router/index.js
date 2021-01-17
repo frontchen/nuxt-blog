@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 import Main from "Pages/common/Main";
 import MainHome from "Pages/common/MainHome"; // 首页
@@ -6,7 +6,7 @@ import NotFound from "Pages/common/NotFound"; // 404页面
 import Login from "Common/Login"; // 登录页面
 
 export default createRouter({
-  history: createWebHashHistory(process.env.VUE_APP_BASEURL),
+  history: createWebHistory(process.env.VUE_APP_BASEURL),
   // base: process.env.VUE_APP_BASEURL,
   routes: [
     {
