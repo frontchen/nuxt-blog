@@ -3,14 +3,19 @@
     <div class="main-menu-list">
       <el-menu
         :active-name="activeMenu"
-        theme="light"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
         :accordion="true"
         width="auto"
+        :collapse="!sidebar.opend"
         :open-names="openMenu"
         @on-select="menuSelect"
         @on-open-change="menuChange"
       >
         <el-submenu
+          popper-append-to-body
+          popper-class="main-menu-list-popper"
           v-for="(item, index) in menuList"
           :key="index"
           :index="`${index}`"
@@ -18,17 +23,21 @@
         >
           <template #title>
             <i :class="item.icon"></i>
-            {{ item.name }}
+            <span v-if="sidebar.opend"> {{ item.name }}</span>
           </template>
           <el-menu-item
+            v-show="sidebar.opend"
             v-for="(val, i) in item.children"
             :key="i"
             :index="`${index}-${i}`"
             :name="val.name"
             :to="val.path"
             @click.native="menuClick(val)"
-            >{{ val.name }}</el-menu-item
           >
+            <template #title>
+              <div>{{ val.name }}</div>
+            </template>
+          </el-menu-item>
         </el-submenu>
       </el-menu>
     </div>
@@ -37,7 +46,7 @@
 
 <script>
 import { storeKey } from "@/data/index";
-
+import { mapState } from "vuex";
 export default {
   name: "page-main-menu",
   data() {
@@ -65,6 +74,9 @@ export default {
         },
       ];
     },
+    ...mapState({
+      sidebar: (state) => state.app.sidebar,
+    }),
   },
   created() {
     let openMenu = window.sessionStorage.getItem(storeKey.menuOpen);
@@ -76,6 +88,9 @@ export default {
     this.openMenu = openMenu || [];
     this.activeMenu = activeMenu;
     // this.menuList = this.fullList
+  },
+  mounted() {
+    console.log(this.sidebar);
   },
   methods: {
     menuClick(val) {

@@ -75,14 +75,18 @@ body {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
   border-radius: 6px;
   background: @ims-white-color;
-  min-height: 779px;
+ height:100%;
   padding-bottom: 10px;
 }
 
 .@{ims-css-prefix}main-container {
   margin: 0 13px;
 }
-
+.@{el-css-prefix}header {
+  padding-right: 10px;
+  height: 40px !important;
+  line-height: 40px !important;
+}
 // 多排隐藏显示
 .ims-ellipsis {
   width: 100%;
@@ -455,17 +459,23 @@ body {
 @el-menu-prefix-cls: el-menu;
 
 .ims-left-main-menu {
-  background-color: @ims-white-color;
+  background-color: #545c64;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
   border-radius: 4px;
   padding: 6px 0;
 
   .main-menu-list {
+    background-color: #545c64;
     min-height: 767px;
     max-height: 767px;
     overflow-x: hidden;
     overflow-y: auto;
+    .el-menu{
+      border:none;
+    }
+    .main-menu-list-popper{
 
+    }
     /* 滚动条整体部分 */
     &::-webkit-scrollbar {
       width: 1px;

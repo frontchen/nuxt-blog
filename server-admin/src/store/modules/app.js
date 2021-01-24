@@ -15,7 +15,7 @@ const actions = {
 
 const mutations = {
   toogleSideBar(state) {
-    state.sidebar.opened = !state.sidebar.opened;
+    state.sidebar.opend = !state.sidebar.opend;
   },
 };
 

@@ -1,15 +1,11 @@
 <template>
   <el-container>
-    <main-header></main-header>
-    <el-main>
-      <el-aside width="200px">
-        <main-menu></main-menu>
-      </el-aside>
+    <el-aside :width="asideWidth"> <main-menu></main-menu></el-aside>
+    <el-container>
+      <el-header><main-header></main-header></el-header>
       <router-view></router-view>
-    </el-main>
-    <el-footer>
-      <main-footer></main-footer>
-    </el-footer>
+      <!-- <el-footer> <main-footer></main-footer></el-footer> -->
+    </el-container>
   </el-container>
 </template>
 
@@ -17,19 +13,26 @@
 import { mapState } from "vuex";
 
 import MainHeader from "./MainHeader";
-import MainFooter from "./MainFooter";
+// import MainFooter from "./MainFooter";
 import MainMenu from "./MainMenu";
 export default {
   name: "page-main",
   components: {
     "main-header": MainHeader,
-    "main-footer": MainFooter,
+    // "main-footer": MainFooter,
     "main-menu": MainMenu,
   },
   computed: {
     ...mapState({
       cname: (state) =>
         state.account.userInfo ? state.account.userInfo.cname : "",
+      asideWidth: (state) => {
+        let width = "80px";
+        if (state.app.sidebar.opend) {
+          width = "200px";
+        }
+        return width;
+      },
     }),
   },
   mounted() {
