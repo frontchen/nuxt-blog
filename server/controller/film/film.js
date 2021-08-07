@@ -26,8 +26,9 @@ class Film {
     res.json(data);
   };
   parsePlayerUrl = async (req, res) => {
-    let path = req.query.path;
-    let data = await film.get245BtPlayerUrl(path).catch((err) => {
+    let path = req.query.path.replace(/[\\']/g, "");
+    let search = req.query.search;
+    let data = await film.get245BtPlayerUrl(path,search).catch((err) => {
       res.json(err);
     });
     res.json(data);

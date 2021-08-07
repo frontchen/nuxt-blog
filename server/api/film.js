@@ -90,7 +90,7 @@ let api = {
       if (search) {
         server.url = "https://www.2345ys.net";
       }
-      http.get(path, {}, services1).then(
+      http.get(path, {}, server).then(
         (res) => {
           return resolve(parse.parse245BtItemHtml(res));
           // return resolve(res)
@@ -102,9 +102,15 @@ let api = {
     });
   },
   // 解析视频url
-  get245BtPlayerUrl: (path) => {
+  get245BtPlayerUrl: (path,search) => {
     return new Promise((resolve, reject) => {
-      http.get(path, {}, services1).then(
+      let server = {
+        ...services1,
+      };
+      if (search) {
+        server.url = "https://www.2345ys.net";
+      }
+      http.get(path, {}, search).then(
         (res) => {
           return resolve(parse.parser245BtPlayerUrl(res));
           // return resolve(res)
