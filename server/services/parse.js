@@ -191,6 +191,91 @@ let parse = {
       body,
     };
   },
+  //解析搜索列表明细数据
+  parse245BtSearchHtml: (data) => {
+    let $ = cheerio.load(data, {
+      ignoreWhitespace: true,
+      xmlMode: true,
+    });
+    let datas = {};
+    const container = $(".min-container");
+    let imgEl = $(".min-container .video-list .media-cover");
+    let imgPath = imgEl ? imgEl.css("background") : "";
+    if (imgPath) {
+      imgPath = imgPath.match(/(https:\/\/\S+)/gi)[0];
+      imgPath = imgPath.substr(0, imgPath.length - 2);
+    }
+    let detailDom = $(".min-container .media-body");
+    datas.imgPath = imgPath;
+    let author = detailDom.find(".media-heading").text().trim();
+    let count = detailDom.find(".media-score").text().trim();
+    datas.author = `${author}${count ? "(" + count + ")" : ""}`; //片名
+    // 影片介绍
+    let header = [];
+    let dataDom = detailDom.find("p");
+    dataDom.each((i, v) => {
+      if (i === 2) {
+        $(v)
+          .children(".text-muted")
+          .each((item) => {
+            header.push({
+              label: $(item).text().trim(),
+              value: $(item).next().text().trim(),
+            });
+          });
+      } else {
+        let label = $(v).find(".text-muted").text().trim();
+        let value = $(v).text().trim();
+        if (value.indexOf("：") > -1) {
+          value = value.split("：")[1];
+        }
+        header.push({
+          label,
+          value,
+        });
+      }
+    });
+    // 剧情简介
+    let descDom = container.find(".layout").eq(7);
+    let desc = [];
+    desc.push({
+      label: descDom.find(".layout-head h4").text(),
+      value: descDom.find(".layout-body .content-des").text(),
+    });
+
+    // 剧集列表
+    let bodyDom = container.find(".layout").filter(() => {
+      return $(this).find(".playlist");
+    });
+    let body = [];
+    bodyDom.each((i, v) => {
+      let source = $(v).find(".layout-head h4").text().trim();
+      let listDom = $(v).find(".playlist li");
+      if (listDom.length) {
+        let list = [];
+        listDom.each((index, item) => {
+          let urlDom = $(item).find("a");
+          list.push({
+            path: urlDom.attr("href"),
+            title: urlDom.text().trim(),
+          });
+        });
+
+        body.push({
+          source,
+          list: list.filter((k) => k.path && k.title),
+        });
+      }
+    });
+    datas.header = unit.objectArrayReduce(
+      header.filter((v) => v.label && v.value),
+      "label"
+    );
+    datas.body = body.filter((item, index) => index !== body.length - 1);
+    datas.desc = desc.filter((v) => v.label && v.value);
+    return datas;
+  },
+  // 解析列表明细数据
   parse245BtItemHtml: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
@@ -238,8 +323,8 @@ let parse = {
     // 剧情简介
     let desc = [];
     desc.push({
-      label: descDom.find(".text-muted").text(),
-      value: descDom.find(".detail-sketch").text(),
+      label: descDom.find(".detail .text-muted").text(),
+      value: descDom.find(".detail-content").text(),
     });
     // 剧集列表
     let bodyDom = $(".container ").find(".stui-pannel");
@@ -272,15 +357,18 @@ let parse = {
 
     datas.body = body.filter((item, index) => index !== body.length - 1);
     datas.desc = desc.filter((v) => v.label && v.value);
-
     return datas;
   },
+  // 解析列表播放视频url
   parser245BtPlayerUrl: (data) => {
     // player
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
       xmlMode: true,
     });
+    let iframeContainer = $(".stui-player__iframe").length
+      ? $(".stui-player__iframe")
+      : $(".playinfo .play");
     let iframe = $("#cciframe");
     /**
      * "var vid="72304";
@@ -292,38 +380,30 @@ let parse = {
      * var prePage="/play/72304-0-0.html";
      * var nextPage="/play/72304-0-0.html";"
      */
-    let playerUrlArr = iframe.prev()[0].children[0].data.split(";");
-    let playerUrlItem = (playerUrlArr || []).find((v) => v.indexOf("now") > -1);
-    let playerUrl = "";
-    try {
-      playerUrl = playerUrlItem.match(/unescape\("(\S*)"\)/)[1];
-
-      playerUrl = decodeURIComponent(playerUrl);
-    } catch (error) {}
-    return {
-      url: playerUrl,
-    };
-  },
-  /**
-   * @returns : [
-    {
-      imgPath: '',
-      title: '',
-      desc: [
-        {
-          title: ''
-        }
-      ],
-      btn: [
-        {
-          title: '',
-          path: ''
-        }
-      ]
+    const res = { url: "" };
+    if (!iframe) {
+      return res;
     }
-  ],
-   */
+    if (iframe.attr("contentWindow")) {
+      let doc = iframe.attr("contentWindow").document;
+      res.url = doc.getElementId("zzapi").getAttribute("src");
+    } else {
+      let playerUrlArr = iframeContainer.find("script").html().split(";");
+      let playerUrlItem = (playerUrlArr || []).find(
+        (v) => v.indexOf("now") > -1
+      );
+      let playerUrl = "";
+      try {
+        playerUrl = playerUrlItem.match(/unescape\("(\S*)"\)/)[1];
+        playerUrl = decodeURIComponent(playerUrl);
+      } catch (error) {}
 
+      res.url = playerUrl;
+    }
+    return res;
+  },
+
+  //解析搜索列表
   parse245BtSearchList: (data) => {
     let $ = cheerio.load(data, {
       ignoreWhitespace: true,
@@ -363,7 +443,6 @@ let parse = {
         btn,
       });
     });
-    console.log(["searchList", searchList]);
     return searchList;
   },
 };

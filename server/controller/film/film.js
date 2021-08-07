@@ -1,14 +1,14 @@
 // import FilmModel from "../../model/film/film";
 import { film } from "../../api";
 class Film {
-  getHeader = async (req, res,) => {
+  getHeader = async (req, res) => {
     let data = await film.get245BtHeader({}).catch((err) => {
       res.json(err);
     });
-    if(!data){
+    if (!data) {
       return res.json([]);
     }
-   return res.json(data||[]);
+    return res.json(data || []);
   };
   getList = async (req, res) => {
     let path = req.query.path.replace(/[\\']/g, "");

@@ -6,8 +6,12 @@ const services = {
   port: 80,
 };
 const services1 = {
-  url: "http://www.245bt.com",
-  port: 80,
+  url: "https://www.245bt.com",
+  port: "",
+};
+const services2 = {
+  url: "https://www.2345ys.net",
+  port: "",
 };
 let api = {
   /********************* www.1156zy.com api *****************/
@@ -56,12 +60,10 @@ let api = {
     return new Promise((resolve, reject) => {
       return http.get("", params, services1).then(
         (res) => {
-          console.log(["headerres", res]);
           return resolve(parse.parse245BtHeader(res));
           // return resolve(res)
         },
         (err) => {
-          // console.log(["headererr", err]);
           reject(err);
         }
       );
@@ -87,11 +89,16 @@ let api = {
       let server = {
         ...services1,
       };
-      if (search) {
-        server.url = "https://www.2345ys.net";
+      if (search === "true") {
+        server = {
+          ...services2,
+        };
       }
       http.get(path, {}, server).then(
         (res) => {
+          if (search === "true") {
+            return resolve(parse.parse245BtSearchHtml(res));
+          }
           return resolve(parse.parse245BtItemHtml(res));
           // return resolve(res)
         },
@@ -110,10 +117,9 @@ let api = {
       if (search) {
         server.url = "https://www.2345ys.net";
       }
-      http.get(path, {}, search).then(
+      http.get(path, {}, server).then(
         (res) => {
           return resolve(parse.parser245BtPlayerUrl(res));
-          // return resolve(res)
         },
         (err) => {
           reject(err);
@@ -124,17 +130,15 @@ let api = {
   // 模糊搜索
   search245BtBykeywords: (prefix, params) => {
     return new Promise((resolve, reject) => {
-      http
-        .get(prefix, params, { url: "https://www.2345ys.net", port: "" })
-        .then(
-          (res) => {
-            return resolve(parse.parse245BtSearchList(res));
-            // return resolve(res)
-          },
-          (err) => {
-            reject(err);
-          }
-        );
+      http.get(prefix, params, services2).then(
+        (res) => {
+          return resolve(parse.parse245BtSearchList(res));
+          // return resolve(res)
+        },
+        (err) => {
+          reject(err);
+        }
+      );
     });
   },
 };

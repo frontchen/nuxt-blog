@@ -16,6 +16,3 @@ app
   .use(ElementPlus)
   .use(VueI18n);
 app.mount("#app");
-// new Vue({
-//   render: h => h(App),
-// }).$mount('#app')
